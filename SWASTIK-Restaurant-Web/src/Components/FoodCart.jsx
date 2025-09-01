@@ -6,7 +6,7 @@ const FoodCart=({id,name,desc,price,imgSrc,rating,handleToast})=>{
   const dispatch=useDispatch();
   return (
     <div className='font-bold w-[250px] bg-white p-5 flex flex-col rounded-lg gap-2'>
-       <img src={imgSrc} alt="image By SWASTIK Restraunt" className='w-auto h-[130px] hover:scale-110 overflow-hidden cursor-grab transition-all duration-500 ease-in-out'/> 
+       <img src={imgSrc} loading="lazy" alt="image By SWASTIK Restraunt" className='w-auto h-[130px] hover:scale-110 overflow-hidden cursor-grab transition-all duration-500 ease-in-out'/> 
        <div className='text-sm flex justify-between'>
         <h2>{name}</h2>
         <span className='text-red-500'>&#8377;{price}</span>
