@@ -28,12 +28,13 @@ const Navbar = () => {
         <a 
           href="https://t.me/SWASTIK_tripathibot" 
           target="_blank" 
-          rel="noopener noreferrer" 
           className="flex items-center gap-2 mt-2 text-red-600 hover:underline"
         >
           <FaTelegram className="text-2xl" />
           <span className="font-medium">Order Quickly With Our Telegram Bot</span>
         </a>
+        <a href='https://swastiktripathi.onrender.com/' className="flex items-center gap-2 mt-3 text-red-500 hover:underline" target='_blank' >
+        <img src={logo} alt="SWASTIK-TRIPATHI" className="w-10 h-10 object-cover rounded-full"  /><h1 className='text-xl font-bold'>Click Here To Check Our Hotels Page</h1> </a>
       </div>
 
       <div className="mt-4 lg:mt-0">
