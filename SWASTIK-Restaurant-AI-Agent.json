@@ -1,0 +1,357 @@
+{
+  "name": "SWASTIK_TRIPATHI_7610605071_2.0",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "You are a smart food ordering assistant for \"SWASTIK Restaurant\".  \n\nRules:  \n\n1. When a user sends their first message (like hi, hello), reply with:  \n\"Welcome to SWASTIK Restaurant 🍽️  \nHow can I help you today?  \n- 🛒 Place an order  \n- ℹ️ FAQ / Information  \n- 📦 Check order / stock\"  \n\n(👉 Keep the tone friendly like a food delivery app, not like a product e-commerce site)  \n\n2. If user wants *order*:  \n- Ask step by step: name, food item, quantity  \n- Check Inventory sheet before confirming  \n   - If available → \"Your order for *[item]* (x quantity) is confirmed ✅\"  \n   - If not available → \"Sorry, *[item]* is out of stock ❌. Available options: [list items]\"  \n- Only confirmed orders go into the Orders sheet  \n- In Orders sheet always include:  \n   Status = Confirmed / Rejected  \n   Description = \"Order accepted (item available)\" OR \"Order rejected (out of stock)\"  \n\n3. If user wants *FAQ*:  \n- Answer short and clear (delivery time, payment method, restaurant hours)  \n\n4. If user wants *check order* or *check stock*:  \n- Ask for food name or order id  \n- Look up in Google Sheets (Orders / Inventory)  \n   - If checking order → reply with status (Confirmed / Rejected / Cancelled / Delivered)  \n   - If checking stock → reply with available quantity of that food  \n   - Also list all *available* food items with quantity if requested  \n\n5. If user wants *cancel order*:  \n- Reply politely:  \n  \"Sorry 🙏 I cannot cancel orders directly.  \n   Please call the restaurant owner first and inform them.  \n   Owner Contact: +95 1224567890\"  \n\n6. Always reply in short text like a normal WhatsApp chat  \n- Do not use **bold** or long paragraphs  \n- Use *stars* only for highlighting words  \n- Keep tone friendly, polite, and food-delivery app style  ",
+          "maxIterations": 10,
+          "returnIntermediateSteps": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        -80
+      ],
+      "id": "a5599ac7-e7cf-41dc-b138-5affa8500eb7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg",
+          "mode": "list",
+          "cachedResultName": "Food Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1597022251,
+          "mode": "list",
+          "cachedResultName": "Inventory",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg/edit#gid=1597022251"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        128
+      ],
+      "id": "de202f35-86a8-442d-88db-2e68c04d3961",
+      "name": "Get Inventory (SWTR)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9w5UbIktx1Inw8AQ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg",
+          "mode": "list",
+          "cachedResultName": "Food Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 211195673,
+          "mode": "list",
+          "cachedResultName": "FAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg/edit#gid=211195673"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        224
+      ],
+      "id": "a98ef1ad-f54d-4211-af09-b0c16354452d",
+      "name": "Get FAQ (SWTR)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9w5UbIktx1Inw8AQ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg",
+          "mode": "list",
+          "cachedResultName": "Food Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1896059368,
+          "mode": "list",
+          "cachedResultName": "Orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NzgmpSgPWbNi5Dx3jVc1dbsCdUm63K2jsPQtzSSeXAg/edit#gid=1896059368"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Customer Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Customer_Name', ``, 'string') }}",
+            "Food Item": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Food_Item', ``, 'string') }}",
+            "Quantity Ordered": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quantity_Ordered', ``, 'string') }}",
+            "Order Date": "={{ $now.format('yyyy-MM-dd hh-mm-ss a') }}",
+            "Status": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Status', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Food Item",
+              "displayName": "Food Item",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity Ordered",
+              "displayName": "Quantity Ordered",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order Date",
+              "displayName": "Order Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        336,
+        320
+      ],
+      "id": "0b84e71b-0fbb-4684-ae44-27f8c45086f6",
+      "name": "POST Orders (SWTR)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9w5UbIktx1Inw8AQ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        128
+      ],
+      "id": "b976abd6-3406-463e-b9c2-0abd71126630",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VcU5SQWnh2Mx82Hz",
+          "name": "Google Gemini(PaLM) Api account 21"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -224,
+        -80
+      ],
+      "id": "648d2f2d-d69e-4f25-854a-d56c930554c1",
+      "name": "Telegram Trigger",
+      "webhookId": "72537c35-60dc-4912-91df-bcfc2a1187af",
+      "credentials": {
+        "telegramApi": {
+          "id": "rKz0d5CsshXI9XdO",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        -80
+      ],
+      "id": "a2216d0c-c9a5-409c-b02a-4052df6b7f39",
+      "name": "Send a text message",
+      "webhookId": "7e32e5ef-04ec-43cb-b31d-d378e290ee3a",
+      "credentials": {
+        "telegramApi": {
+          "id": "rKz0d5CsshXI9XdO",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id }}",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -16,
+        128
+      ],
+      "id": "c944d3ee-8135-4a2e-898f-54c42f2f0b38",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get Inventory (SWTR)": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get FAQ (SWTR)": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Orders (SWTR)": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bd0f940b-4d0d-4f96-92c9-a6923b4ad74d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ea145790450230edb4cf204b600fea9cfdc24c835045894aa8d81a5693cf86b0"
+  },
+  "id": "VvHK1vkyg9HJEzKa",
+  "tags": []
+}
