@@ -26,7 +26,7 @@ const Navbar = () => {
         </div>
 
         <a 
-          href="https://t.me/SWASTIK_tripathibot" 
+          href="https://t.me/SwastikRestaurentbot" 
           target="_blank" 
           className="flex items-center gap-2 mt-2 text-red-600 hover:underline"
         >
